@@ -15,6 +15,7 @@
 		<StackPanel Margin="50">
 			<customcontrols:BindablePasswordBox Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 			<TextBlock Text="{Binding Password, StringFormat=Пароль: {0}}"/>
+			<customcontrols:BindablePasswordBox Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 		</StackPanel>
 	</Grid>
 </Window>
