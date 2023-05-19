@@ -20,11 +20,15 @@ namespace WPF_BindablePasswordBox.CustomControls
     /// </summary>
     public partial class BindablePasswordBox : UserControl
     {
-        public static readonly DependencyProperty PasswordProperty = DependencyProperty.Register("Password", typeof(string), typeof(BindablePasswordBox));
+        private bool _isPasswordChanging = false;
+
+        public static readonly DependencyProperty PasswordProperty =
+            DependencyProperty.Register("Password", typeof(string), typeof(BindablePasswordBox), new PropertyMetadata(string.Empty, PasswordPropertyChanged));
+
 
         public string Password
         {
-            get => GetValue(PasswordProperty).ToString()!;
+            get => (string)GetValue(PasswordProperty);
             set => SetValue(PasswordProperty, value);
         }
 
@@ -33,10 +37,29 @@ namespace WPF_BindablePasswordBox.CustomControls
             InitializeComponent();
             txtPassword.PasswordChanged += OnPasswordChanged;
         }
+        private static void PasswordPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is BindablePasswordBox passwordBox)
+            {
+                passwordBox.UpdatePassword();
+            }
+        }
+
+        private void UpdatePassword()
+        {
+            if (_isPasswordChanging)
+            {
+                return;
+            }
+
+            txtPassword.Password = Password;
+        }
 
         private void OnPasswordChanged(object sender, RoutedEventArgs e)
         {
+            _isPasswordChanging = true;
             Password = txtPassword.Password;
+            _isPasswordChanging = false;
         }
     }
 }
