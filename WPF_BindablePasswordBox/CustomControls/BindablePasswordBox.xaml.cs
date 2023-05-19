@@ -23,7 +23,9 @@ namespace WPF_BindablePasswordBox.CustomControls
         private bool _isPasswordChanging = false;
 
         public static readonly DependencyProperty PasswordProperty =
-            DependencyProperty.Register("Password", typeof(string), typeof(BindablePasswordBox), new PropertyMetadata(string.Empty, PasswordPropertyChanged));
+            DependencyProperty.Register("Password", typeof(string), typeof(BindablePasswordBox),
+                new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                    PasswordPropertyChanged,coerceValueCallback: null, isAnimationProhibited: false, UpdateSourceTrigger.PropertyChanged));
 
 
         public string Password
